@@ -1,5 +1,5 @@
-import 'package:DevQuiz/home/widgets/scorecard/score_card_widget.dart';
-import '../../../core/core.dart';
+import 'package:DevQuiz/pages/home/widgets/scorecard/score_card_widget.dart';
+import 'package:DevQuiz/core/core.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends PreferredSize {
@@ -37,7 +37,7 @@ class AppBarWidget extends PreferredSize {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: NetworkImage("https://media.gazetadopovo.com.br/viver-bem/2018/11/dog3-768x587-0e01be20.jpg")
+                           image: NetworkImage("https://media.gazetadopovo.com.br/viver-bem/2018/11/dog3-768x587-0e01be20.jpg"),
                         )
                     ),
                   )
