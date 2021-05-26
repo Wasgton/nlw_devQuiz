@@ -11,8 +11,9 @@ class QuizCardWidget extends StatelessWidget {
   final String title;
   final String completed;
   final double percent;
+  final VoidCallback onTap;
 
-  const QuizCardWidget({Key?key,required this.title, required this.completed, required this.percent}):super(key:key);
+  const QuizCardWidget({Key?key,required this.title, required this.completed, required this.percent, required this.onTap}):super(key:key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +59,7 @@ class QuizCardWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: ()=>{
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> ChallengePage()))
-      },
+      onTap: onTap,
     );
   }
 }

@@ -1,11 +1,13 @@
 import 'package:DevQuiz/pages/challenge/widgets/answer/answer_widget.dart';
+import 'package:DevQuiz/pages/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:DevQuiz/pages/challenge/widgets/question_indicator/question_indicator_widget.dart';
 import 'package:DevQuiz/pages/challenge/widgets/quiz/quiz_widget.dart';
+import 'package:DevQuiz/shared/models/Question.dart';
 import 'package:flutter/material.dart';
 
 class ChallengePage extends StatefulWidget {
-
-  ChallengePage({Key? key}): super(key: key);
+  final List<Question> questions;
+  ChallengePage({Key? key, required this.questions}): super(key: key);
 
   @override
   _ChallengePageState createState() => _ChallengePageState();
@@ -18,19 +20,29 @@ class _ChallengePageState extends State<ChallengePage> {
       appBar: PreferredSize(
         child: SafeArea(
             top:true,
-            child: QuestionIndicatorWidget()
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(icon: Icon(Icons.close), onPressed: () {Navigator.pop(context);}),
+                QuestionIndicatorWidget(),
+              ],
+            )
         ),
-        preferredSize: Size.fromHeight(60),
+        preferredSize: Size.fromHeight(100),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            QuizWidget(title: "O que o flutter faz em sua totalidade?",),
-            AnswerWidget(title:'Kit de desenvolvimento de interface de usuário'),
-            AnswerWidget(title:'Possibilita a criação de aplicativos compilados nativamente'),
-            AnswerWidget(title:'Acho que é uma marca de café do Himalaia'),
-            AnswerWidget(title:'Possibilita a criação de desktops que são muito incríveis'),
-          ],
+      body: QuizWidget(
+          question: widget.questions[0]
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(child: NextButtonWidget.white(label: "Pular",onTap: (){},)),
+              Expanded(child: NextButtonWidget.green(label: "Confirmar",onTap: (){}))
+            ],
+          ),
         ),
       ),
     );
