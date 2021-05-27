@@ -1,3 +1,4 @@
+import 'package:DevQuiz/pages/challenge/challenge_controller.dart';
 import 'package:DevQuiz/pages/challenge/widgets/answer/answer_widget.dart';
 import 'package:DevQuiz/pages/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:DevQuiz/pages/challenge/widgets/question_indicator/question_indicator_widget.dart';
@@ -14,6 +15,16 @@ class ChallengePage extends StatefulWidget {
 }
 
 class _ChallengePageState extends State<ChallengePage> {
+  final controller = ChallengeController();
+  final pageController = PageController();
+  @override
+  void initState(){
+    pageController.addListener(() {
+      controller.currentPage = pageController.page!.toInt();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +35,24 @@ class _ChallengePageState extends State<ChallengePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(icon: Icon(Icons.close), onPressed: () {Navigator.pop(context);}),
-                QuestionIndicatorWidget(),
+                ValueListenableBuilder<int>(
+                  valueListenable: controller.currentPageNotifier,
+                  builder: (context,value,_) => QuestionIndicatorWidget(
+                    currentPage: value,
+                    length: widget.questions.length,
+                  ),
+                ),
               ],
             )
         ),
         preferredSize: Size.fromHeight(100),
       ),
-      body: QuizWidget(
-          question: widget.questions[0]
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: widget.questions.map(
+                (e) => QuizWidget(question: e)
+        ).toList(),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
@@ -39,8 +60,15 @@ class _ChallengePageState extends State<ChallengePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(child: NextButtonWidget.white(label: "Pular",onTap: (){},)),
-              Expanded(child: NextButtonWidget.green(label: "Confirmar",onTap: (){}))
+              Expanded(child: NextButtonWidget.white(label: "Pular",onTap: (){
+                pageController.nextPage(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.linear,
+                );
+              },)),
+              Expanded(child: NextButtonWidget.green(label: "Confirmar",onTap: (){
+
+              }))
             ],
           ),
         ),
